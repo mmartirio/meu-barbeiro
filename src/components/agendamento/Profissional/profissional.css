@@ -1,0 +1,37 @@
+.title-pro {
+  display: flex;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  font-size: 22pt;
+}
+
+.container-pro {
+  display: flex;
+  margin-top: 2em;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 5px;
+  box-shadow: 1px 10px 20px 10px rgba(2, 2, 2, 0.5);
+  padding: 3em 5em;
+}
+
+.pro {
+  display: flex;
+  width: 200px;
+  height: 100px;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: .5em;
+  border-radius: 10px;
+  box-shadow: 1px 5px 8px 3px rgba(2, 2, 2, 0.5);
+  font-size: 15pt;
+}
+
+.pro:hover {
+  background-color: #1d1d1d;
+}
+
+.pro:active {
+  background-color: #050025;
+}
+

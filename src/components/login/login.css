@@ -1,0 +1,92 @@
+.container-login {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 5px;
+  box-shadow: 1px 10px 20px 10px rgba(2, 2, 2, 0.5);
+  padding: 3em;
+
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  
+}
+
+.form .name, .phone {
+  margin-top: 1em;
+}
+
+.form .name input {
+  width: 350px;
+  height: 30px;
+  font-size: 14pt;
+}
+
+.form .phone input {
+  width: 350px;
+  height: 30px;
+  font-size: 14pt;
+}
+
+.form .icons {
+  margin-left: .5em;
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.form .bday label {
+  margin-top: 1em;
+}
+
+.form .bday input{
+  width: 350px;
+  height: 30px;
+  font-size: 14pt;
+  cursor: pointer;
+  outline: none;
+}
+
+.form .name label, .phone label, .bday label {
+  display: block;
+  margin-left: .4em;
+  margin-bottom: .2em;
+  font-size: 16pt;
+}
+
+.form .name input, .phone input {
+  cursor: pointer;
+  outline: none;
+}
+
+.form .checkbox{
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1em;
+  margin-left: .2em;
+  cursor: pointer;
+  outline: none;
+}
+
+.form .checkbox input {
+  width: 20px;
+}
+
+.form .checkbox label {
+  margin-left: 3px;
+  margin-top: 9px;
+  font-size: 14pt;
+}
+
+.form .checkbox .btn-entrar {
+  margin-left: 8em;
+  height: 40px;
+  width: 115px;
+  font-weight: 600;
+  background-color: #f10404;
+  color: #ffff;
+  border-radius: 5px;
+
+}
+

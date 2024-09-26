@@ -1,0 +1,84 @@
+.title-serv {
+  display: flex;
+}
+
+.container-serv {
+  width: 50vmin;
+  height: 100vh;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: left;
+  justify-content: flex-end;
+  border-radius: 5px;
+  box-shadow: 1px 10px 20px 10px rgba(2, 2, 2, 0.5);
+  padding: 3em 5em;
+  margin-top: 10px;
+}
+
+.serv {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 calc(35% - 20px);
+  padding: 10px;
+  width: 30vmin;
+  height: 12vmin;
+  margin: 0 10px 0px 0;
+  border-radius: 10px;
+  box-shadow: 1px 5px 8px 3px rgba(2, 2, 2, 0.5);
+}
+
+.pro:hover {
+  background-color: #1d1d1d;
+  color:#ee4c02;
+}
+
+.pro:active {
+  background-color: #050025;
+}
+
+.serv h3, p {
+  margin-top: .4em;
+  margin-left: 1em;
+  margin-bottom: 0;
+}
+
+.serv:hover {
+  background-color: #1d1d1d;
+}
+
+.serv.selected {
+  background-color: #3e4095;
+  color: white;
+  border-color:  #3e4095;
+}
+
+.btn-serv {
+  width: 12em;
+  height: 2.5em;
+  margin: 2em 3.5em 0;
+  border: none;
+  background-color: #f10404;
+  color: #ffff;
+  font-weight: 600;
+  box-shadow: 1px 5px 8px 3px rgba(2, 2, 2, 0.5);
+  border-radius: 5px;
+  font-size: 12pt;
+}
+
+.btn-serv:hover {
+  background-color: #a70202;
+  box-shadow: 1px 5px 8px 3px rgba(36, 35, 35, 0.5)
+}
+
+.btn-serv:active {
+  background-color: #530202;
+}
+
+.summary-serv {
+  margin-top: 20px;
+}
+
+.summary-serv p {
+  font-size: 18px;
+  font-weight: bold;
+}
