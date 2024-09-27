@@ -1,6 +1,7 @@
-import React, { useState, Suspense, lazy } from 'react';
+import React, { useState, lazy, Suspense } from 'react';
 import './servico.css';
 
+const Login = lazy(() => import('../../login/login'));
 const PDFGenerator = lazy(() => import('../PDF/pdfGenerator'));
 
 const servicesData = [
@@ -17,9 +18,10 @@ const servicesData = [
 
 const Servico = () => {
   const [selectedServices, setSelectedServices] = useState([]);
+  const [showLogin, setShowLogin] = useState(false); // Estado para controlar a exibição do Login
 
   const toggleService = (service) => {
-    setSelectedServices((prev) => 
+    setSelectedServices((prev) =>
       prev.includes(service) ? prev.filter(s => s !== service) : [...prev, service]
     );
   };
@@ -28,6 +30,20 @@ const Servico = () => {
     const { value = 0, duration = 0 } = servicesData.find(s => s.name === name) || {};
     return { value: acc.value + value, duration: acc.duration + duration };
   }, { value: 0, duration: 0 });
+
+  const handlePdfGenerated = () => {
+    // Atualiza o estado para exibir o Login e ocultar o componente de serviços
+    setShowLogin(true);
+  };
+
+  if (showLogin) {
+    // Renderiza apenas o Login, substituindo completamente o componente de serviços
+    return (
+      <Suspense fallback={<div>Carregando Login...</div>}>
+        <Login />
+      </Suspense>
+    );
+  }
 
   return (
     <section className='container-serv'>
@@ -50,7 +66,12 @@ const Servico = () => {
           <p>Valor Total: R$ {total.value},00</p>
           <p>Duração Total: {total.duration} min</p>
           <Suspense fallback={<div>Carregando PDF...</div>}>
-            <PDFGenerator servicesDescription={selectedServices.join(' + ')} totalValue={total.value} totalDuration={total.duration} />
+            <PDFGenerator 
+              servicesDescription={selectedServices.join(' + ')} 
+              totalValue={total.value} 
+              totalDuration={total.duration} 
+              onDownloadComplete={handlePdfGenerated} // Passa a função de callback correta
+            />
           </Suspense>
         </section>
       )}

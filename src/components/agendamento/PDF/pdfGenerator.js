@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-const { jsPDF } = require('jspdf'); 
+import { jsPDF } from 'jspdf'; 
 import logo from '../../../assets/logo-meu-barbeiro.png'; // Verifique o caminho
 import './pdfGenerator.css'; // Importa o arquivo de estilos
 
-const PDFGenerator = ({ servicesDescription, totalValue, totalDuration }) => {
+const PDFGenerator = ({ servicesDescription, totalValue, totalDuration, onDownloadComplete }) => {
   const [showAlert, setShowAlert] = useState(false);
 
   const handleGeneratePDF = () => {
@@ -25,11 +25,11 @@ const PDFGenerator = ({ servicesDescription, totalValue, totalDuration }) => {
 
     // Adiciona texto formatado ao PDF
     doc.setFontSize(18);
-    doc.setFont('Arial', 'bold');
+    doc.setFont('helvetica', 'bold');
     doc.text("Resumo dos Serviços Selecionados", 20, 40);
     
     doc.setFontSize(14);
-    doc.setFont('Arial', 'normal');
+    doc.setFont('helvetica', 'normal');
     doc.text(`Serviços: ${servicesDescription}`, 20, 60);
     doc.text(`Valor Total: R$ ${totalValue},00`, 20, 80);
     doc.text(`Duração Total: ${totalDuration} min`, 20, 100);
@@ -41,6 +41,9 @@ const PDFGenerator = ({ servicesDescription, totalValue, totalDuration }) => {
 
     // Salva o PDF
     doc.save("Agendamento-barbeiro.pdf");
+
+    // Chama a função de callback para sinalizar a conclusão do download
+    onDownloadComplete();
   };
 
   const handleClick = () => {
@@ -59,7 +62,7 @@ const PDFGenerator = ({ servicesDescription, totalValue, totalDuration }) => {
         </div>
       )}
       <button className='btn-serv' onClick={handleClick}>
-        Aceitar
+        Aceitar e Gerar PDF
       </button>
     </div>
   );
