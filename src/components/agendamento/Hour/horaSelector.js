@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './horaSelector.css'; // Corrija o caminho se necessário
+import './horaSelector.css';
 
 const HoraSelector = ({ selectedDate, onSelectHour, onBook }) => {
   const [horarios, setHorarios] = useState([]);
@@ -7,30 +7,24 @@ const HoraSelector = ({ selectedDate, onSelectHour, onBook }) => {
 
   useEffect(() => {
     if (selectedDate) {
-      // Gerar horários disponíveis (exemplo simples)
-      const horariosDisponiveis = [
+      setHorarios([
         '08:00', '09:00', '10:00', '11:00', '12:00',
         '13:00', '14:00', '15:00', '16:00', '17:00',
         '18:00', '19:00', '20:00', '21:00', '22:00'
-      ];
-
-      // Ajustar a lógica para filtrar horários com base na data
-      setHorarios(horariosDisponiveis);
+      ]);
     }
   }, [selectedDate]);
 
   const handleHourClick = (hour) => {
-    if (onSelectHour) {
-      onSelectHour(hour);
-    }
     setSelectedHour(hour);
+    onSelectHour?.(hour);
   };
 
   return (
     <div className='hora-selector'>
       {selectedDate ? (
         <div>
-        <h3>Horários Disponíveis para {selectedDate.toLocaleDateString('pt-BR')}:</h3>
+          <h3>Horários Disponíveis para {selectedDate.toLocaleDateString('pt-BR')}:</h3>
           <ul>
             {horarios.map((hora, index) => (
               <li 

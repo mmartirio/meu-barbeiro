@@ -1,30 +1,33 @@
 import './App.css';
-import React from 'react';
-import Logo from './assets/logo-meu-barbeiro.png';
+import React, { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Login from './components/login/login';
-import CalendarComponent from './components/agendamento/calendar/calendarComponent';
-import Profissional from './components/agendamento/Profissional/profissional';
-import Servico from './components/agendamento/service/servico';
+
+const Login = lazy(() => import('./components/login/login'));
+const CalendarComponent = lazy(() => import('./components/agendamento/calendar/calendarComponent'));
+const Profissional = lazy(() => import('./components/agendamento/Profissional/profissional'));
+const Servico = lazy(() => import('./components/agendamento/service/servico'));
+import Logo from './assets/logo-meu-barbeiro.png'; // Importando a imagem diretamente
 
 function App() {
     return (
         <Router>
             <div className='container'>
-                <img className='logo' src={Logo} alt='logo' title='logo' />
-                <Routes>
-                    {/* Rota da página de login */}
-                    <Route path="/" element={<Login />} />
+                <Suspense fallback={<div>Loading...</div>}>
+                    <img className='logo' src={Logo} alt='logo' title='logo' />
+                    <Routes>
+                        {/* Rota da página de login */}
+                        <Route path="/" element={<Login />} />
 
-                    {/* Rota para o componente de agendamento com o calendário */}
-                    <Route path="/agendamento/calendarComponent" element={<CalendarComponent />} />
+                        {/* Rota para o componente de agendamento com o calendário */}
+                        <Route path="/agendamento/calendarComponent" element={<CalendarComponent />} />
 
-                    {/* Rota para o componente de seleção de profissional */}
-                    <Route path="/profissional" element={<Profissional />} />
+                        {/* Rota para o componente de seleção de profissional */}
+                        <Route path="/profissional" element={<Profissional />} />
 
-                    {/* Rota para o componente de seleção de serviço */}
-                    <Route path="/servico" element={<Servico />} />
-                </Routes>
+                        {/* Rota para o componente de seleção de serviço */}
+                        <Route path="/servico" element={<Servico />} />
+                    </Routes>
+                </Suspense>
             </div>
         </Router>
     );

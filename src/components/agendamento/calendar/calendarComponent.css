@@ -4,6 +4,7 @@
   margin-top: 1em;
   margin-bottom: 1em;
   font-size: 28pt;
+  color: #333;
 }
 
 .container-cal p {
@@ -12,4 +13,65 @@
   margin-bottom: 15px;
   margin-left: .2em;
   font-size: 14pt;
+  color: #555;
+}
+
+.simple-calendar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  background-color: #fff;
+  width: 320px; /* Largura do calendário */
+  margin: auto; /* Centraliza o calendário */
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #0078d7; /* Cor do cabeçalho */
+  color: white;
+  border-radius: 8px 8px 0 0; /* Arredondar o topo */
+}
+
+.header h3 {
+  margin: 0;
+  font-size: 18pt; /* Tamanho da fonte do cabeçalho */
+}
+
+.days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  padding: 10px; /* Espaçamento interno */
+}
+
+.day, .empty-day {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: 1px solid transparent; /* Adiciona borda para efeito de hover */
+  transition: background-color 0.3s, border 0.3s; /* Efeito de transição suave */
+}
+
+.day:hover {
+  background-color: #f0f0f0; /* Cor de fundo ao passar o mouse */
+  border: 1px solid #0078d7; /* Borda ao passar o mouse */
+}
+
+.day.selected {
+  background-color: #0078d7; /* Cor de fundo para o dia selecionado */
+  color: white; /* Cor do texto para o dia selecionado */
+}
+
+.empty-day {
+  background-color: #f9f9f9; /* Cor para os dias vazios */
 }
