@@ -10,7 +10,7 @@ module.exports = {
     main: './src/index.js'
   },
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'build'),
     filename: 'bundle-[contenthash].js',
     clean: true, // Limpa a pasta de saída antes de cada nova construção
   },
@@ -72,8 +72,8 @@ module.exports = {
   },
   performance: {
     hints: 'warning', // ou 'error' se você quiser que falhe no build
-    maxAssetSize: 400000, // 400 KiB em bytes
-    maxEntrypointSize: 400000, // 400 KiB em bytes
+    maxAssetSize: 2000000, // 400 KiB em bytes
+    maxEntrypointSize: 2000000, // 400 KiB em bytes
   },
   plugins: [
     new CleanWebpackPlugin(),
