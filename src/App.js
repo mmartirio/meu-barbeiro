@@ -6,7 +6,8 @@ const Login = lazy(() => import('./components/login/login'));
 const CalendarComponent = lazy(() => import('./components/agendamento/calendar/calendarComponent'));
 const Profissional = lazy(() => import('./components/agendamento/Profissional/profissional'));
 const Servico = lazy(() => import('./components/agendamento/service/servico'));
-import Logo from './assets/logo-meu-barbeiro.png'; // Importando a imagem diretamente
+const Administrador = lazy(() => import('./Administrador/Administrador'));
+import Logo from './assets/logo-meu-barbeiro.png';
 
 function App() {
     return (
@@ -26,6 +27,9 @@ function App() {
 
                         {/* Rota para o componente de seleção de serviço */}
                         <Route path="/servico" element={<Servico />} />
+
+                      {/* Rota para o componente de seleção de Administrador */}
+                        <Route path="/Administrador" element={<Administrador />} />
                     </Routes>
                 </Suspense>
             </div>
