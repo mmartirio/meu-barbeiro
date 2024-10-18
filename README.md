@@ -45,7 +45,7 @@ Clone o repositório:
 
 bash
 Copy code
-git clone https://github.com/seu-usuario/meu-barbeiro.git
+git clone https://github.com/mmartirio/meu-barbeiro.git
 cd meu-barbeiro
 Instale as dependências:
 
