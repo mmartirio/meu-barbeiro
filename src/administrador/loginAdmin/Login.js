@@ -1,5 +1,5 @@
 import React from 'react';
-import './Administrador.css'; 
+import './Login.css'; 
 
 function Administrador() {
   return (
@@ -30,7 +30,7 @@ function Administrador() {
           <a href="/recuperar-senha">Esqueceu a senha?</a>
           <a href="/suporte">Suporte técnico</a>
           </div>
-           
+          
             <button type="submit">Acessar</button> 
           </div>
         </form>

@@ -6,7 +6,10 @@ const Login = lazy(() => import('./components/login/login'));
 const CalendarComponent = lazy(() => import('./components/agendamento/calendar/calendarComponent'));
 const Profissional = lazy(() => import('./components/agendamento/Profissional/profissional'));
 const Servico = lazy(() => import('./components/agendamento/service/servico'));
-const Administrador = lazy(() => import('./Administrador/Administrador'));
+
+
+const AppRoutes = lazy(() => import('./routes/Routes'));
+
 import Logo from './assets/logo-meu-barbeiro.png';
 
 function App() {
@@ -28,8 +31,8 @@ function App() {
                         {/* Rota para o componente de seleção de serviço */}
                         <Route path="/servico" element={<Servico />} />
 
-                      {/* Rota para o componente de seleção de Administrador */}
-                        <Route path="/Administrador" element={<Administrador />} />
+                        {/* Rotas adicionais carregadas de forma lazy */}
+                        <Route path="/*" element={<AppRoutes />} />
                     </Routes>
                 </Suspense>
             </div>

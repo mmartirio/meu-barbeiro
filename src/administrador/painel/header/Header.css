@@ -1,0 +1,13 @@
+.admin-header {
+  display: flex;
+  width: 80vw;
+  align-items: center;
+  justify-content: center;
+
+}
+
+
+.admin-header button {
+  margin-right:30px;
+  margin-bottom: 10px;
+}
