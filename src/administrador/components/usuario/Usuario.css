@@ -1,0 +1,92 @@
+.user-management {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #3d3d3d;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.back-button {
+  margin-right: 16em;
+  margin-bottom: 5em;
+  height: 40px;
+  width: 115px;
+  font-weight: 600;
+  background-color: #f10404;
+  color: #ffff;
+  border-radius: 5px;
+}
+
+.back-button:hover {
+  background-color: #d30202;
+}
+
+.create-user-container {
+  padding: 20px;
+  border-bottom: 5px solid #272727;
+  margin: 10px 20px 0px 0;
+  text-align: center;
+  justify-content: space-between;
+  display: inline-block;
+}
+
+.user-list-container {
+  padding: 20px;
+  margin: 10px 20px 20px 0;
+  text-align: center;
+}
+
+.create-user-container h2, .user-list-container h2 {
+  margin-bottom: 30px;
+}
+
+.create-user-container input, .user-list-container input {
+  margin: 30px 20px 30px 5px;
+}
+
+.create-user-container input[type="checkbox"],
+.user-list-container input[type="checkbox"] {
+  margin: 20px 20px 30px 20px;
+  padding: 10px; /* Adiciona padding para todos os inputs */
+  box-sizing: border-box; /* Inclui padding e border no tamanho total */
+  width: 200px; /* Define uma largura padrão */
+}
+
+.create-user-container input[type="checkbox"],
+.user-list-container input[type="checkbox"] {
+  width: 20px; /* Define a largura do checkbox como automática */
+  height: 20px; /* Ajusta a altura do checkbox */
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 10px;
+}
+
+.actions {
+  margin-top: 10px;
+}
+
+.actions button {
+  margin-right: 10px;
+}
+
+.create-user-container button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.create-user-container button:hover {
+  background-color: #45a049;
+}

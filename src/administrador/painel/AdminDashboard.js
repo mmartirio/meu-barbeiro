@@ -9,12 +9,10 @@ import './AdminDashboard.css';
 // Registra os componentes do Chart.js que serão usados
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const AdminDashboard = ({ toggleLogo }) => {
+const AdminDashboard = () => {
   const [chartData, setChartData] = useState(null);
 
   useEffect(() => {
-    
-
     // Simula o carregamento de dados de serviços realizados no mês
     const loadServiceData = async () => {
       // Aqui você pode fazer uma chamada à sua API para obter os dados reais
@@ -31,7 +29,7 @@ const AdminDashboard = ({ toggleLogo }) => {
               '#4BC0C0', // Coloração
               '#9966FF', // Tratamento/ Cor das barras
             ]
-            },
+          },
         ],
       };
 
@@ -40,10 +38,7 @@ const AdminDashboard = ({ toggleLogo }) => {
     };
 
     loadServiceData();
-
-    // Mostra a logo novamente ao sair do AdminDashboard
-    return () => toggleLogo(true);
-  }, [toggleLogo]);
+  }, []);
 
   return (
     <div className="admin-dashboard">
@@ -71,7 +66,7 @@ const AdminDashboard = ({ toggleLogo }) => {
           ) : (
             <p>Carregando dados...</p>
           )}
-          <Outlet /> {/* Conteúdo da rota selecionada será renderizado aqui */}
+          <Outlet />
         </div>
       </div>
     </div>
