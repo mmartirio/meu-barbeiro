@@ -5,7 +5,8 @@ import AdminDashboard from '../administrador/painel/AdminDashboard';
 import Usuario from '../administrador/components/usuario/Usuario'
 import Servicos from '../administrador/components/servicos/Services'
 import Agenda from '../administrador/components/agenda/Agenda';
-
+import Relatorio from '../administrador/components/relatorios/Relatorio';
+import RecuperarSenha from '../administrador/loginAdmin/RecuperaSenha';
 
 const AppRoutes = () => {
   return (
@@ -21,6 +22,10 @@ const AppRoutes = () => {
       <Route path="/servicos" element={<Servicos />}>
       </Route>
       <Route path="/agenda" element={<Agenda />}>
+      </Route>
+      <Route path="/relatorios" element={<Relatorio />}>
+      </Route>
+      <Route path="/recuperar-senha" element={<RecuperarSenha />}>
       </Route>
     </Routes>
   );

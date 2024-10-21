@@ -3,7 +3,7 @@ import Sidebar from './sidebar/Sidebar';
 import Header from './header/Header';
 import { Bar } from 'react-chartjs-2'; // Importa o componente Bar para criar gráficos de barras
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom'; // Adiciona useLocation
 import './AdminDashboard.css';
 
 // Registra os componentes do Chart.js que serão usados
@@ -11,6 +11,7 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 const AdminDashboard = () => {
   const [chartData, setChartData] = useState(null);
+  const location = useLocation(); // Obtém a localização atual
 
   useEffect(() => {
     // Simula o carregamento de dados de serviços realizados no mês
@@ -47,26 +48,29 @@ const AdminDashboard = () => {
         <Header />
         <div className="content-area">
           <h2>Serviços Realizados no Mês</h2>
-          {chartData ? (
-            <Bar 
-              data={chartData}
-              options={{
-                responsive: true,
-                plugins: {
-                  legend: {
-                    position: 'top',
+          {location.pathname === '/dashboard' ? ( // Verifica se a rota atual é o dashboard
+            chartData ? (
+              <Bar 
+                data={chartData}
+                options={{
+                  responsive: true,
+                  plugins: {
+                    legend: {
+                      position: 'top',
+                    },
+                    title: {
+                      display: true,
+                      text: 'Gráfico de Serviços Realizados no Mês',
+                    },
                   },
-                  title: {
-                    display: true,
-                    text: 'Gráfico de Serviços Realizados no Mês',
-                  },
-                },
-              }}
-            />
+                }}
+              />
+            ) : (
+              <p>Carregando dados...</p>
+            )
           ) : (
-            <p>Carregando dados...</p>
+            <Outlet /> // Renderiza o componente alternativo
           )}
-          <Outlet />
         </div>
       </div>
     </div>

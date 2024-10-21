@@ -1,0 +1,68 @@
+.title {
+margin-top: 50px;
+width: 250px;
+font-size: 30px;
+font-weight: 900;
+}
+
+form {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+/* Estilização para a seção de horários */
+.horarios-container {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+}
+
+.horarios-container h3 {
+  font-size: 20px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.set-horario {
+  display: flex;
+
+}
+
+/* Labels alinhadas à esquerda com font-weight 600 */
+.horarios-container label {
+  font-weight: 600;
+  margin-bottom: 5px;
+  text-align: left;
+  display: block;
+}
+
+/* Inputs alinhados abaixo das labels */
+.horarios-container input {
+  margin-bottom: 15px;
+  padding: 8px;
+  width: 100%;
+  font-size: 16px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+/* Alinhamento dos dias da semana selecionáveis */
+.days-of-week {
+  margin-top: 20px;
+}
+
+.days-of-week label {
+  margin-right: 10px;
+}
+
+.btn-agenda {
+padding: 8px;
+}
+
+.btn-agenda button {
+  margin: 10px 30px 10px 50px;
+  width: 130px;
+}
