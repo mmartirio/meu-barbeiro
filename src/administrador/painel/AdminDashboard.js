@@ -16,30 +16,40 @@ const AdminDashboard = () => {
   useEffect(() => {
     // Simula o carregamento de dados de serviços realizados no mês
     const loadServiceData = async () => {
-      // Aqui você pode fazer uma chamada à sua API para obter os dados reais
-      const servicesData = {
-        labels: ['Corte de Cabelo', 'Barba', 'Corte e Barba', 'Coloração', 'Tratamento'],
-        datasets: [
-          {
-            label: 'Serviços Realizados',
-            data: [30, 20, 10, 5, 15], // Dados de exemplo
-            backgroundColor: [
-              '#FF6384', // Corte de Cabelo
-              '#36A2EB', // Barba
-              '#FFCE56', // Corte e Barba
-              '#4BC0C0', // Coloração
-              '#9966FF', // Tratamento/ Cor das barras
-            ]
-          },
-        ],
-      };
+      try {
+        // Aqui você pode fazer uma chamada à sua API para obter os dados reais
+        // Exemplo: const response = await fetch('/api/servicos-realizados');
+        // const servicesData = await response.json();
 
-      // Define os dados no estado
-      setChartData(servicesData);
+        const servicesData = {
+          labels: ['Corte de Cabelo', 'Barba', 'Corte e Barba', 'Coloração', 'Tratamento'],
+          datasets: [
+            {
+              label: 'Serviços Realizados',
+              data: [0, 0, 0, 0, 0], // Simulação de dados vazios para teste
+              backgroundColor: [
+                '#FF6384', // Corte de Cabelo
+                '#36A2EB', // Barba
+                '#FFCE56', // Corte e Barba
+                '#4BC0C0', // Coloração
+                '#9966FF', // Tratamento/ Cor das barras
+              ]
+            },
+          ],
+        };
+
+        // Define os dados no estado
+        setChartData(servicesData);
+      } catch (error) {
+        console.error('Erro ao carregar dados de serviços:', error);
+      }
     };
 
     loadServiceData();
   }, []);
+
+  // Verifica se os dados existem e se há valores maiores que zero
+  const hasData = chartData?.datasets[0]?.data.some(value => value > 0);
 
   return (
     <div className="admin-dashboard">
@@ -50,23 +60,27 @@ const AdminDashboard = () => {
           <h2>Serviços Realizados no Mês</h2>
           {location.pathname === '/dashboard' ? ( // Verifica se a rota atual é o dashboard
             chartData ? (
-              <Bar 
-                data={chartData}
-                options={{
-                  responsive: true,
-                  plugins: {
-                    legend: {
-                      position: 'top',
+              hasData ? ( // Se houver dados maiores que zero, exibe o gráfico
+                <Bar
+                  data={chartData}
+                  options={{
+                    responsive: true,
+                    plugins: {
+                      legend: {
+                        position: 'top',
+                      },
+                      title: {
+                        display: true,
+                        text: 'Gráfico de Serviços Realizados no Mês',
+                      },
                     },
-                    title: {
-                      display: true,
-                      text: 'Gráfico de Serviços Realizados no Mês',
-                    },
-                  },
-                }}
-              />
+                  }}
+                />
+              ) : (
+                <h1>Não há serviços executados!</h1> // Mensagem caso não haja dados
+              )
             ) : (
-              <p>Carregando dados...</p>
+              <p>Carregando dados...</p> // Mensagem enquanto os dados são carregados
             )
           ) : (
             <Outlet /> // Renderiza o componente alternativo

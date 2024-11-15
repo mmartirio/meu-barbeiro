@@ -3,14 +3,10 @@
   flex-direction: column;
   margin-top: 20px;
   padding: 20px;
-  background-color: #3d3d3d;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
+  
 }
 
 .back-button {
-  margin-right: 16em;
   margin-bottom: 5em;
   height: 40px;
   width: 115px;
@@ -27,24 +23,63 @@
 .create-user-container {
   padding: 20px;
   border-bottom: 5px solid #272727;
-  margin: 10px 20px 0px 0;
+  margin: 10px 10px 0px 0;
   text-align: center;
-  justify-content: space-between;
-  display: inline-block;
+  justify-content: center;
+  background-color: #3d3d3d;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.create-user-container form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.create-user-container form input[type="text"], [type="email"], [type="password"]{
+  display: block;
+  margin: 10px ;
 }
 
 .user-list-container {
-  padding: 20px;
-  margin: 10px 20px 20px 0;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.user-list-container section {
+  display: flex;
+  flex-direction: column; /* Organiza os usuários em coluna */
+}
+
+.user-list-container article {
+  display: flex; /* Cria um contêiner flexível para cada usuário */
+  width: 700px;
+  justify-content: space-evenly; /* Distribui espaço igualmente entre os itens */
+  align-items: center; /* Alinha os itens verticalmente */
+  margin-bottom: 10px; /* Espaçamento entre os usuários */
+  padding: 10px; /* Espaçamento interno */
+  border: 1px solid #ccc; /* Adiciona uma borda para destaque */
+  border-radius: 5px; /* Bordas arredondadas */
+}
+
+.actions {
+  display: flex; /* Cria um contêiner flexível para os botões */
+  gap: 10px; /* Espaçamento entre os botões */
+}
+
+.actions button {
+  padding: 5px 10px; /* Estilização dos botões */
+  cursor: pointer; /* Cursor de ponteiro ao passar o mouse */
 }
 
 .create-user-container h2, .user-list-container h2 {
   margin-bottom: 30px;
-}
-
-.create-user-container input, .user-list-container input {
-  margin: 30px 20px 30px 5px;
 }
 
 .create-user-container input[type="checkbox"],
@@ -61,23 +96,6 @@
   height: 20px; /* Ajusta a altura do checkbox */
 }
 
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  margin-bottom: 10px;
-}
-
-.actions {
-  margin-top: 10px;
-}
-
-.actions button {
-  margin-right: 10px;
-}
-
 .create-user-container button {
   background-color: #4CAF50;
   color: white;
@@ -90,3 +108,4 @@ li {
 .create-user-container button:hover {
   background-color: #45a049;
 }
+

@@ -1,0 +1,39 @@
+/* ConfirmModal.css */
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #3d3d3d;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+}
+
+.modal-content h3, button, p {
+  margin: 10px;
+}
+
+.modal-content h3 {
+  font-size: 25px;
+}
+
+.modal-content .btn-caonfirm{
+  background-color: #4CAF50;
+}
+
+.modal-content .btn-caonfirm:hover{
+  background-color: #45a049;
+}

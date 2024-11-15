@@ -12,7 +12,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: 'bundle-[contenthash].js',
-    clean: true, // Limpa a pasta de saída antes de cada nova construção
+    clean: true,
   },
   stats: {
     children: true,
@@ -26,23 +26,23 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/preset-env', '@babel/preset-react'], // Adicione presets do Babel se necessário
+            presets: ['@babel/preset-env', '@babel/preset-react'],
           },
         },
       },
       {
         test: /\.(png|jpe?g|gif)$/i,
-        type: 'asset/resource', // Usar asset modules em vez de file-loader
+        type: 'asset/resource',
       },
       {
         test: /\.svg$/,
         oneOf: [
           {
-            resourceQuery: /url/, // Para arquivos SVG importados como URL
-            type: 'asset/inline', // Usar asset modules para SVGs importados como URL
+            resourceQuery: /url/,
+            type: 'asset/inline',
           },
           {
-            use: ['@svgr/webpack', 'file-loader'], // Para arquivos SVG importados como componentes React
+            use: ['@svgr/webpack', 'file-loader'],
           },
         ],
       },
@@ -61,7 +61,7 @@ module.exports = {
       new TerserPlugin({
         terserOptions: {
           compress: {
-            drop_console: true, // Remove console logs em produção
+            drop_console: true,
           },
         },
       }),
@@ -71,9 +71,9 @@ module.exports = {
     },
   },
   performance: {
-    hints: 'warning', // ou 'error' se você quiser que falhe no build
-    maxAssetSize: 2000000, // 400 KiB em bytes
-    maxEntrypointSize: 2000000, // 400 KiB em bytes
+    hints: 'warning',
+    maxAssetSize: 2000000,
+    maxEntrypointSize: 2000000,
   },
   plugins: [
     new CleanWebpackPlugin(),
@@ -107,8 +107,21 @@ module.exports = {
     }),
   ],
   devServer: {
-    static: path.join(__dirname, 'dist'),
+    static: path.join(__dirname, 'build'),
     historyApiFallback: true,
     port: 3000,
+    hot: true,
+    open: true,
+    compress: true,
+    client: {
+      webSocketTransport: 'ws',
+    },
+    proxy: [
+      {
+        context: ['/api'],
+        target: 'http://localhost:3001',
+        changeOrigin: true,
+      },
+    ],
   },
 };

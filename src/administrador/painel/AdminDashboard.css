@@ -20,6 +20,10 @@
   height: 60vh; /* Mantém a altura desejada */
 }
 
+.admin-dashboard .content-area h1{
+  margin-top: 80px;
+}
+
 .admin-dashboard .chart-container {
   flex: 1; /* O gráfico ocupará todo o espaço disponível */
   position: relative; /* Para melhor controle do canvas */
