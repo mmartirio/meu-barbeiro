@@ -1,46 +1,64 @@
 import React, { useState } from 'react';
-import { jsPDF } from 'jspdf'; 
+import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 import logo from '../../../assets/logo-meu-barbeiro.png'; // Verifique o caminho
+
 import './pdfGenerator.css'; // Importa o arquivo de estilos
+import { useTranslation } from 'react-i18next';
+import FeedbackMessage from '../../FeedbackMessage';
 
 const PDFGenerator = ({ servicesDescription, totalValue, totalDuration, onDownloadComplete }) => {
   const [showAlert, setShowAlert] = useState(false);
 
-  const handleGeneratePDF = () => {
-    const doc = new jsPDF();
-    const pdfWidth = doc.internal.pageSize.getWidth();
+  const handleGeneratePDF = async () => {
+    const pdfDoc = await PDFDocument.create();
+    const page = pdfDoc.addPage([595, 842]); // A4 portrait
+    const { width, height } = page.getSize();
 
-    // Definições da imagem
-    const imageWidth = 24; 
-    const imageHeight = 20; 
-    const xPosition = (pdfWidth - imageWidth) / 2;
+    // Fonte padrão
+    const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+    const fontBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
 
-    // Adiciona a imagem da logo ao PDF (centralizada)
-    try {
-      doc.addImage(logo, 'PNG', xPosition, 10, imageWidth, imageHeight);
-    } catch (error) {
-      console.error("Erro ao adicionar imagem:", error);
-      return; // Retorna caso ocorra erro
-    }
+    // Adiciona título
+    page.drawText(t('pdf.title') || 'Resumo dos Serviços Selecionados', {
+      x: 40,
+      y: height - 60,
+      size: 18,
+      font: fontBold,
+      color: rgb(0, 0, 0),
+    });
 
-    // Adiciona texto formatado ao PDF
-    doc.setFontSize(18);
-    doc.setFont('helvetica', 'bold');
-    doc.text("Resumo dos Serviços Selecionados", 20, 40);
-    
-    doc.setFontSize(14);
-    doc.setFont('helvetica', 'normal');
-    doc.text(`Serviços: ${servicesDescription}`, 20, 60);
-    doc.text(`Valor Total: R$ ${totalValue},00`, 20, 80);
-    doc.text(`Duração Total: ${totalDuration} min`, 20, 100);
+    // Adiciona dados
+    page.drawText(`Serviços: ${servicesDescription}`, {
+      x: 40,
+      y: height - 100,
+      size: 14,
+      font,
+      color: rgb(0, 0, 0),
+    });
+    page.drawText(`${t('pdf.services') || 'Serviços'}: ${servicesDescription}`, {
+      x: 40,
+      y: height - 120,
+      size: 14,
+      font,
+      color: rgb(0, 0, 0),
+    });
+    page.drawText(`Duração Total: ${totalDuration} min`, {
+      x: 40,
+      y: height - 140,
+      size: 14,
+      font,
+      color: rgb(0, 0, 0),
+    });
 
-    // Formatação adicional
-    doc.setDrawColor(0, 0, 0);
-    doc.setLineWidth(0.5);
-    doc.line(20, 110, 190, 110);
-
-    // Salva o PDF
-    doc.save("Agendamento-barbeiro.pdf");
+    // Gera o PDF e faz download
+    const pdfBytes = await pdfDoc.save();
+    const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'Agendamento-barbeiro.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
 
     // Chama a função de callback para sinalizar a conclusão do download
     onDownloadComplete();
@@ -56,11 +74,11 @@ const PDFGenerator = ({ servicesDescription, totalValue, totalDuration, onDownlo
 
   return (
     <div>
-      {showAlert && (
-        <div className="alert">
-          Agendamento realizado com sucesso!
-        </div>
-      )}
+      <FeedbackMessage
+        message={showAlert ? 'Agendamento realizado com sucesso!' : ''}
+        type="success"
+        onClose={() => setShowAlert(false)}
+      />
       <button className='btn-serv' onClick={handleClick}>
         Aceitar e Gerar PDF
       </button>

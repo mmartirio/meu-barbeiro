@@ -90,9 +90,6 @@ module.exports = {
         implementation: ImageMinimizerPlugin.imageminMinify,
         options: {
           plugins: [
-            ['gifsicle', { interlaced: true }],
-            ['jpegtran', { progressive: true }],
-            ['optipng', { optimizationLevel: 5 }],
             ['svgo', {
               plugins: [
                 {
@@ -115,6 +112,10 @@ module.exports = {
     compress: true,
     client: {
       webSocketTransport: 'ws',
+      overlay: {
+        errors: true,
+        warnings: false,
+      },
     },
     proxy: [
       {

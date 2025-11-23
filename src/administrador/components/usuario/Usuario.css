@@ -7,13 +7,22 @@
 }
 
 .back-button {
-  margin-bottom: 5em;
+  margin-bottom: 2em;
   height: 40px;
-  width: 115px;
+  min-width: 100px;
+  width: 100%;
+  max-width: 180px;
   font-weight: 600;
   background-color: #f10404;
   color: #ffff;
   border-radius: 5px;
+  box-sizing: border-box;
+}
+@media (max-width: 700px) {
+  .back-button {
+    max-width: 100vw;
+    font-size: 1em;
+  }
 }
 
 .back-button:hover {

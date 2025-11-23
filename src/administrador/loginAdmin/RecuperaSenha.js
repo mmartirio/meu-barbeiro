@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Importa useNavigate
+
 import './RecuperaSenha.css'; // Importa os estilos
 
+import FeedbackMessage from '../../components/FeedbackMessage';
+import { useTranslation } from 'react-i18next';
+
 const RecuperarSenha = () => {
+
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate(); // Inicializa o hook useNavigate
+  const { t } = useTranslation();
 
   const handleBack = () => {
     navigate(-1); // Volta para a página anterior
@@ -27,15 +33,13 @@ const RecuperarSenha = () => {
       });
 
       if (response.ok) {
-        setMessage('Instruções de recuperação de senha enviadas para ' + email);
+        setMessage(t('recover.success', { email }) || `Instruções de recuperação de senha enviadas para ${email}`);
       } else {
         const data = await response.json();
-        setMessage(data.message || 'Ocorreu um erro ao enviar as instruções.');
+        setMessage(data.message || t('recover.errorSend') || 'Ocorreu um erro ao enviar as instruções.');
       }
     } catch (error) {
-      setMessage('Erro de rede. Tente novamente mais tarde.');
-
-      // Define um timeout para limpar a mensagem de erro após 4 segundos
+      setMessage(t('recover.networkError') || 'Erro de rede. Tente novamente mais tarde.');
       setTimeout(() => {
         setMessage('');
       }, 4000);
@@ -46,22 +50,26 @@ const RecuperarSenha = () => {
 
   return (
     <div className="recuperar-senha-container">
-      <button onClick={handleBack} className="back-button">Voltar</button> {/* Botão Voltar */}
-      <h1>Recuperar Senha</h1>
+      <button onClick={handleBack} className="back-button">{t('recover.back') || 'Voltar'}</button>
+      <h1>{t('recover.title') || 'Recuperar Senha'}</h1>
       <form className="form" onSubmit={handleSubmit}>
-        <label htmlFor="email">Digite seu e-mail cadastrado</label>
+        <label htmlFor="email">{t('recover.label') || 'Digite seu e-mail cadastrado'}</label>
         <input 
           type="email" 
           id="email" 
-          placeholder="E-mail" 
+          placeholder={t('recover.placeholder') || 'E-mail'} 
           value={email} 
           onChange={(e) => setEmail(e.target.value)} 
           required 
         />
         <button type="submit" disabled={loading}>
-          {loading ? 'Enviando...' : 'Enviar Instruções'}
+          {loading ? t('recover.sending') || 'Enviando...' : t('recover.send') || 'Enviar Instruções'}
         </button>
-        {message && <p>{message}</p>} {/* Exibe a mensagem de status */}
+        <FeedbackMessage
+          message={message}
+          type={message && message.toLowerCase().includes('erro') ? 'error' : 'success'}
+          onClose={() => setMessage('')}
+        />
       </form>
     </div>
   );

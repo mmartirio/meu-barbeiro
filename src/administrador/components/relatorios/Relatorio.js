@@ -1,14 +1,23 @@
 import React, { useState } from 'react';
-import jsPDF from 'jspdf';
-import 'jspdf-autotable';
+import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 import { useNavigate } from 'react-router-dom'; // Importando useNavigate
 import './Relatorio.css';
+
+import Button from '../../../components/Button';
+import FeedbackMessage from '../../../components/FeedbackMessage';
+
+import { useTranslation } from 'react-i18next';
 import logo from '../../../assets/logo-meu-barbeiro.png'; // Caminho correto
 
 const Relatorio = () => {
+
   const [tipoRelatorio, setTipoRelatorio] = useState('');
   const [usuario, setUsuario] = useState('');
-  const navigate = useNavigate(); // Inicializando o hook useNavigate
+  const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
+  const [successMsg, setSuccessMsg] = useState('');
+  const navigate = useNavigate();
+  const { t } = useTranslation();
 
   // Simulação de usuários cadastrados
   const usuariosCadastrados = [
@@ -27,98 +36,114 @@ const Relatorio = () => {
     // Adicione mais dados conforme necessário
   ];
 
-  const gerarRelatorio = () => {
-    const doc = new jsPDF();
-
-    // Adiciona a logo no PDF
-    doc.addImage(logo, 'PNG', 10, 10, 40, 40);
-    doc.text('Relatório de Serviços Executados', 60, 20);
-
-    const tabelaY = 70; // Posição Y da tabela
-    let headers = ['Usuário', 'Serviço', 'Data', 'Quantidade'];
-
-    // Filtrar dados com base nas seleções
-    let dadosFiltrados = dadosServicos;
-
-    if (usuario) {
-      dadosFiltrados = dadosFiltrados.filter(d => d.usuario === usuario);
-    }
-
-    // Agrupando os serviços por data
-    const groupedData = {};
-    dadosFiltrados.forEach(item => {
-      if (!groupedData[item.data]) {
-        groupedData[item.data] = [];
-      }
-      groupedData[item.data].push(item);
-    });
-
-    // Prepara os dados para o PDF
-    const pdfData = [];
-    for (const [date, services] of Object.entries(groupedData)) {
-      // Adiciona a data como uma linha
-      pdfData.push([{ content: `Data: ${date}`, colSpan: 4, styles: { halign: 'left', fontStyle: 'bold' } }]);
-
-      // Adiciona os serviços para essa data
-      services.forEach(service => {
-        pdfData.push([service.usuario, service.servico, service.data, service.quantidade]);
+  const gerarRelatorio = async () => {
+    setErrorMsg('');
+    setSuccessMsg('');
+    setLoading(true);
+    try {
+      const pdfDoc = await PDFDocument.create();
+      const page = pdfDoc.addPage([595, 842]); // A4 portrait
+      const { width, height } = page.getSize();
+      const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+      const fontBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+      page.drawText(t('report.title') || 'Relatório de Serviços Executados', {
+        x: 60,
+        y: height - 60,
+        size: 18,
+        font: fontBold,
+        color: rgb(0, 0, 0),
       });
+      let dadosFiltrados = dadosServicos;
+      if (usuario) {
+        dadosFiltrados = dadosFiltrados.filter(d => d.usuario === usuario);
+      }
+      const groupedData = {};
+      dadosFiltrados.forEach(item => {
+        if (!groupedData[item.data]) groupedData[item.data] = [];
+        groupedData[item.data].push(item);
+      });
+      const headers = ['Usuário', 'Serviço', 'Data', 'Quantidade'];
+      let y = height - 100;
+      page.drawText(headers.join('   |   '), {
+        x: 40,
+        y,
+        size: 12,
+        font: fontBold,
+        color: rgb(0, 0, 0),
+      });
+      y -= 20;
+      for (const [date, services] of Object.entries(groupedData)) {
+        page.drawText(`Data: ${date}`, {
+          x: 40,
+          y,
+          size: 11,
+          font: fontBold,
+          color: rgb(0.2, 0.2, 0.2),
+        });
+        y -= 16;
+        services.forEach(service => {
+          page.drawText(
+            `${service.usuario}   |   ${service.servico}   |   ${service.data}   |   ${service.quantidade}`,
+            {
+              x: 40,
+              y,
+              size: 11,
+              font,
+              color: rgb(0, 0, 0),
+            }
+          );
+          y -= 14;
+        });
+        y -= 8;
+      }
+      const pdfBytes = await pdfDoc.save();
+      const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+      const url = URL.createObjectURL(blob);
+      window.open(url, '_blank');
+      setSuccessMsg(t('report.success') || 'Relatório gerado com sucesso!');
+    } catch (err) {
+      setErrorMsg(t('report.error') || 'Erro ao gerar relatório.');
+    } finally {
+      setLoading(false);
     }
-
-    // Adiciona a tabela ao PDF
-    doc.autoTable({
-      head: [headers],
-      body: pdfData,
-      startY: tabelaY,
-    });
-
-    // Gera a string do PDF
-    const pdfOutput = doc.output('datauristring');
-
-    // Abre o PDF em uma nova aba
-    const pdfWindow = window.open('', '_blank');
-    pdfWindow.document.write('<iframe width="100%" height="100%" src="' + pdfOutput + '"></iframe>');
-    pdfWindow.document.close();
   };
 
   return (
     <>
-      <h2 className='title'>Gerar Relatório</h2>
-
-
-         {/* Adicionando o botão "Voltar" */}
-          <div className='btn-return'>
-          <button onClick={() => navigate('/dashboard')}>Voltar</button>
-        </div>
-
+      <h2 className='title'>{t('report.title') || 'Gerar Relatório'}</h2>
+      <FeedbackMessage message={errorMsg} type="error" onClose={() => setErrorMsg('')} />
+      <FeedbackMessage message={successMsg} type="success" onClose={() => setSuccessMsg('')} />
+      <div className='btn-return'>
+        <Button variant="secondary" onClick={() => navigate('/dashboard')}>{t('report.back') || 'Voltar'}</Button>
+      </div>
       <div className="relatorio-container">
         <div className="options-container">
           <div className="option">
-            <label>Tipo de Relatório:</label>
-            <select value={tipoRelatorio} onChange={(e) => setTipoRelatorio(e.target.value)}>
-              <option value="">Selecione...</option>
-              <option value="diario">Diário</option>
-              <option value="semanal">Semanal</option>
-              <option value="quinzenal">Quinzenal</option>
-              <option value="mensal">Mensal</option>
-              <option value="trimestral">Trimestral</option>
-              <option value="semestral">Semestral</option>
-              <option value="anual">Anual</option>
+            <label htmlFor="tipoRelatorio">{t('report.type') || 'Tipo de Relatório:'}</label>
+            <select id="tipoRelatorio" value={tipoRelatorio} onChange={(e) => setTipoRelatorio(e.target.value)}>
+              <option value="">{t('report.selectType') || 'Selecione...'}</option>
+              <option value="diario">{t('report.daily') || 'Diário'}</option>
+              <option value="semanal">{t('report.weekly') || 'Semanal'}</option>
+              <option value="quinzenal">{t('report.biweekly') || 'Quinzenal'}</option>
+              <option value="mensal">{t('report.monthly') || 'Mensal'}</option>
+              <option value="trimestral">{t('report.quarterly') || 'Trimestral'}</option>
+              <option value="semestral">{t('report.semiannual') || 'Semestral'}</option>
+              <option value="anual">{t('report.annual') || 'Anual'}</option>
             </select>
           </div>
-
           <div className="option">
-            <label>Usuário:</label>
-            <select value={usuario} onChange={(e) => setUsuario(e.target.value)}>
-              <option value="">Selecione um usuário...</option>
+            <label htmlFor="usuario">{t('report.user') || 'Usuário:'}</label>
+            <select id="usuario" value={usuario} onChange={(e) => setUsuario(e.target.value)}>
+              <option value="">{t('report.selectUser') || 'Selecione um usuário...'}</option>
               {usuariosCadastrados.map((user) => (
                 <option key={user.id} value={user.nome}>{user.nome}</option>
               ))}
             </select>
           </div>
-
           <div className="button-container">
-            <button onClick={gerarRelatorio}>Gerar Relatório</button>
+            <Button onClick={gerarRelatorio} loading={loading} aria-busy={loading} className={loading ? 'loading' : ''}>
+              {t('report.generate') || 'Gerar Relatório'}
+            </Button>
           </div>
         </div>
       </div>

@@ -1,19 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import './horaSelector.css';
+import { useApi } from '../../../hooks/useApi';
 
 const HoraSelector = ({ selectedDate, onSelectHour, onBook }) => {
   const [horarios, setHorarios] = useState([]);
   const [selectedHour, setSelectedHour] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const { get } = useApi();
 
   useEffect(() => {
-    if (selectedDate) {
-      setHorarios([
-        '08:00', '09:00', '10:00', '11:00', '12:00',
-        '13:00', '14:00', '15:00', '16:00', '17:00',
-        '18:00', '19:00', '20:00', '21:00', '22:00'
-      ]);
+    async function fetchHorarios() {
+      if (!selectedDate) return setHorarios([]);
+      setLoading(true);
+      try {
+        // Exemplo de endpoint: /api/appointment/available?date=YYYY-MM-DD
+        const dateStr = selectedDate.toISOString().split('T')[0];
+        const data = await get(`http://localhost:3001/api/appointment/available?date=${dateStr}`);
+        setHorarios(data);
+      } catch (e) {
+        setHorarios([]);
+      }
+      setLoading(false);
     }
-  }, [selectedDate]);
+    fetchHorarios();
+  }, [selectedDate, get]);
 
   const handleHourClick = (hour) => {
     setSelectedHour(hour);
@@ -25,17 +35,23 @@ const HoraSelector = ({ selectedDate, onSelectHour, onBook }) => {
       {selectedDate ? (
         <div>
           <h3>Horários Disponíveis para {selectedDate.toLocaleDateString('pt-BR')}:</h3>
-          <ul>
-            {horarios.map((hora, index) => (
-              <li 
-                key={index} 
-                onClick={() => handleHourClick(hora)}
-                style={{ backgroundColor: hora === selectedHour ? '#3e4095' : 'transparent' }}
-              >
-                {hora}
-              </li>
-            ))}
-          </ul>
+          {loading ? (
+            <div>Carregando horários...</div>
+          ) : horarios.length === 0 ? (
+            <div>Nenhum horário disponível.</div>
+          ) : (
+            <ul>
+              {horarios.map((hora, index) => (
+                <li
+                  key={index}
+                  onClick={() => handleHourClick(hora)}
+                  style={{ backgroundColor: hora === selectedHour ? '#3e4095' : 'transparent' }}
+                >
+                  {hora}
+                </li>
+              ))}
+            </ul>
+          )}
           <button
             onClick={onBook}
             disabled={!selectedHour}

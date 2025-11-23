@@ -1,10 +1,11 @@
+
 .title-cal {
   display: flex;
   justify-content: center;
   margin-top: 1em;
   margin-bottom: 1em;
   font-size: 28pt;
-  color: #333;
+  color: var(--primary);
 }
 
 .container-cal p {
@@ -13,19 +14,19 @@
   margin-bottom: 15px;
   margin-left: .2em;
   font-size: 14pt;
-  color: #555;
+  color: var(--color);
 }
 
 .simple-calendar {
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 1px solid #ccc;
+  border: 1px solid var(--accent);
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  background-color: #fff;
-  width: 320px; /* Largura do calendário */
-  margin: auto; /* Centraliza o calendário */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+  background-color: var(--background);
+  width: 320px;
+  margin: auto;
 }
 
 .header {
@@ -34,9 +35,19 @@
   width: 100%;
   margin-bottom: 10px;
   padding: 10px;
-  background-color: #0078d7; /* Cor do cabeçalho */
+  background-color: var(--accent);
   color: white;
-  border-radius: 8px 8px 0 0; /* Arredondar o topo */
+  border-radius: 8px 8px 0 0;
+}
+
+@media (max-width: 600px) {
+  .simple-calendar {
+    width: 100%;
+    min-width: 0;
+  }
+  .title-cal {
+    font-size: 20pt;
+  }
 }
 
 .header h3 {

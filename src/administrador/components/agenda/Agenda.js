@@ -1,7 +1,10 @@
 import React, { useState, Suspense, lazy } from 'react';
 import { useNavigate } from 'react-router-dom'; // Importar o useNavigate
 import './Agenda.css';
-import './Calendar.css';
+
+
+import FeedbackMessage from '../../../components/FeedbackMessage';
+import { useTranslation } from 'react-i18next';
 
 // Importação preguiçosa do componente Calendar
 const Calendar = lazy(() => import('react-calendar')); // Lazy loading do calendário
@@ -18,7 +21,16 @@ const Agenda = () => {
   const [selectedDays, setSelectedDays] = useState([]);
   const [calendarDate, setCalendarDate] = useState(new Date());
 
-  const daysOfWeek = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab', 'Dom'];
+  const { t } = useTranslation();
+  const daysOfWeek = [
+    t('agenda.monday') || 'Seg',
+    t('agenda.tuesday') || 'Ter',
+    t('agenda.wednesday') || 'Qua',
+    t('agenda.thursday') || 'Qui',
+    t('agenda.friday') || 'Sex',
+    t('agenda.saturday') || 'Sab',
+    t('agenda.sunday') || 'Dom',
+  ];
   const navigate = useNavigate(); // Hook para navegação
 
   // Lógica para alternar dias selecionados
@@ -31,9 +43,10 @@ const Agenda = () => {
   };
 
   // Lógica para aplicar o horário padrão para todo o ano
+  const [feedbackMsg, setFeedbackMsg] = useState('');
   const handleHorarioPadrao = () => {
     if (selectedDays.length === 0) {
-      alert('Selecione ao menos um dia da semana!');
+      setFeedbackMsg(t('agenda.selectDay') || 'Selecione ao menos um dia da semana!');
       return;
     }
     // Aplicar lógica para definir o horário para todos os dias selecionados no ano
@@ -62,19 +75,20 @@ const Agenda = () => {
 
   return (
     <>
-      <h2 className='title'>Definir Agenda</h2>
+      <h2 className='title'>{t('agenda.title') || 'Definir Agenda'}</h2>
+      <FeedbackMessage message={feedbackMsg} type="error" onClose={() => setFeedbackMsg('')} />
       <form onSubmit={handleSubmit}>
         <div className="horarios-container">
-          {/* Horário de Atendimento */}
-          <h3>Horário de Atendimento</h3>
+
+          <h3>{t('agenda.attendance') || 'Horário de Atendimento'}</h3>
           <div className='set-horario'>
-            <label>Início:</label>
+            <label>{t('agenda.start') || 'Início:'}</label>
             <input
               type="time"
               value={horarioAtendimentoInicio}
               onChange={(e) => setHorarioAtendimentoInicio(e.target.value)}
             />
-            <label>Fim:</label>
+            <label>{t('agenda.end') || 'Fim:'}</label>
             <input
               type="time"
               value={horarioAtendimentoFim}
@@ -82,16 +96,16 @@ const Agenda = () => {
             />
           </div>
 
-          {/* Horário de Almoço */}
-          <h3>Horário de Almoço</h3>
+
+          <h3>{t('agenda.lunch') || 'Horário de Almoço'}</h3>
           <div className='set-horario'>
-            <label>Início:</label>
+            <label>{t('agenda.start') || 'Início:'}</label>
             <input
               type="time"
               value={horarioAlmocoInicio}
               onChange={(e) => setHorarioAlmocoInicio(e.target.value)}
             />
-            <label>Fim:</label>
+            <label>{t('agenda.end') || 'Fim:'}</label>
             <input
               type="time"
               value={horarioAlmocoFim}
@@ -99,16 +113,16 @@ const Agenda = () => {
             />
           </div>
 
-          {/* Horário de Indisponibilidade */}
-          <h3>Indisponibilidade</h3>
+
+          <h3>{t('agenda.unavailable') || 'Indisponibilidade'}</h3>
           <div className='set-horario'>
-            <label>Início:</label>
+            <label>{t('agenda.start') || 'Início:'}</label>
             <input
               type="time"
               value={indisponibilidadeInicio}
               onChange={(e) => setIndisponibilidadeInicio(e.target.value)}
             />
-            <label>Fim:</label>
+            <label>{t('agenda.end') || 'Fim:'}</label>
             <input
               type="time"
               value={indisponibilidadeFim}
@@ -116,26 +130,26 @@ const Agenda = () => {
             />
           </div>
 
-          {/* Encerramento Antecipado */}
-          <h3>Encerramento Antecipado</h3>
+
+          <h3>{t('agenda.earlyClose') || 'Encerramento Antecipado'}</h3>
           <div>
-            <label>Fim:</label>
+            <label>{t('agenda.end') || 'Fim:'}</label>
             <input
               type="time"
               value={encerramentoAntecipado}
               onChange={(e) => setEncerramentoAntecipado(e.target.value)}
             />
-            <label>Motivo:</label>
+            <label>{t('agenda.reason') || 'Motivo:'}</label>
             <input
               type="text"
-              placeholder="Motivo do encerramento"
+              placeholder={t('agenda.reasonPlaceholder') || 'Motivo do encerramento'}
               value={motivoEncerramento}
               onChange={(e) => setMotivoEncerramento(e.target.value)}
             />
           </div>
 
-          {/* Seleção de Dias da Semana */}
-          <h3>Selecione os Dias da Semana</h3>
+
+          <h3>{t('agenda.selectDays') || 'Selecione os Dias da Semana'}</h3>
           <div className='set-horario'>
             {daysOfWeek.map((day) => (
               <label key={day}>
@@ -151,25 +165,25 @@ const Agenda = () => {
           </div>
         </div>
 
+
         <div className="calendar-container">
-          <Suspense fallback={<div>Carregando Calendário...</div>}>
+          <Suspense fallback={<div>{t('agenda.loadingCalendar') || 'Carregando Calendário...'}</div>}>
             <Calendar onChange={setCalendarDate} value={calendarDate} minDate={new Date()} />
           </Suspense>
 
 
         <div className='btn-agenda'>
-          {/* Botão para Definir Horário Padrão */}
           <button type="button" onClick={handleHorarioPadrao}>
-            Horário Padrão
+            {t('agenda.defaultSchedule') || 'Horário Padrão'}
           </button>
-          <button type="submit">Salvar Agenda</button>
-          </div>
+          <button type="submit">{t('agenda.save') || 'Salvar Agenda'}</button>
+        </div>
         </div>
 
           {/* Botão para Voltar ao Dashboard */}
         <button type="button" onClick={handleVoltar}>
-              Voltar
-            </button>
+          {t('agenda.back') || 'Voltar'}
+        </button>
       </form>
       
     </>

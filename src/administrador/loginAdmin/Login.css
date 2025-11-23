@@ -1,3 +1,14 @@
+input[type="email"]:focus,
+input[type="password"]:focus {
+  border: 2px solid #0078d7 !important;
+  outline: none;
+}
+/* Inputs de email e senha sempre com fundo branco e texto escuro */
+input[type="email"],
+input[type="password"] {
+  background: #fff !important;
+  color: #222 !important;
+}
 .header {
   display: flex;
   flex-direction: column;
@@ -7,13 +18,14 @@
 }
 
 .form {
-
   padding: 20px;
   border-radius: 10px;
   box-shadow: 1px 5px 20px 10px rgba(5, 5, 5, 0.5);
-  width: 450px;
+  width: 100%;
+  max-width: 400px;
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
 }
 
 h1 {
@@ -36,7 +48,8 @@ label {
 }
 
 input {
-  width: 350px;
+  width: 100%;
+  max-width: 350px;
   padding: 10px;
   margin-bottom: 25px;
   border: 1px solid #ccc;
@@ -44,33 +57,55 @@ input {
   outline: none;
   cursor: pointer;
   font-size: 14pt;
+  box-sizing: border-box;
 }
 
 button {
   height: 40px;
-  width: 115px;
+  min-width: 100px;
+  width: 100%;
+  max-width: 180px;
   font-weight: 600;
   background-color: #f10404;
   color: #ffff;
   border-radius: 5px;
   font-size: 12pt;
+  box-sizing: border-box;
+  margin-left: 20px;
 }
 
 button:hover {
   background-color: #c40202;
 }
 
-.links {
+.link {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: justify;
+  gap: 5px;
 }
 
 a {
-  display: flex;
   color: #007bff;
   text-decoration: none;
   margin-bottom: 8px;
-  margin-right: 8em;
+  margin-left: 10px;
+}
+
+@media (max-width: 600px) {
+  .form {
+    max-width: 98vw;
+    padding: 10px;
+  }
+  input {
+    max-width: 100vw;
+    font-size: 1em;
+  }
+  button {
+    max-width: 100vw;
+    font-size: 1em;
+  }
 }
 
 a:hover {
