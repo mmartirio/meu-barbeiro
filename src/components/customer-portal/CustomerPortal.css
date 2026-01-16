@@ -1,0 +1,212 @@
+.customer-portal {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    position: relative;
+}
+
+.customer-portal-logo {
+    text-align: center;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.customer-portal-logo img {
+    max-width: 250px;
+    max-height: 150px;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+.customer-portal-container {
+    max-width: 600px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+}
+
+.portal-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 30px;
+    text-align: center;
+}
+
+.portal-header h1 {
+    margin: 0 0 10px 0;
+    font-size: 28px;
+}
+
+.portal-header p {
+    margin: 0;
+    opacity: 0.9;
+}
+
+.portal-progress {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+    background: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.progress-step {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    font-size: 14px;
+    color: #6c757d;
+    position: relative;
+}
+
+.progress-step.active {
+    color: #667eea;
+    font-weight: bold;
+}
+
+.progress-step.active::after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 3px;
+    background: #667eea;
+}
+
+.portal-content {
+    padding: 40px;
+}
+
+.customer-portal-step h2 {
+    margin: 0 0 10px 0;
+    color: #333;
+}
+
+.customer-portal-step > p {
+    color: #6c757d;
+    margin-bottom: 30px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.button-group button {
+    width: auto;
+    flex: 1;
+}
+
+.button-group button:first-child {
+    background: #6c757d;
+}
+
+.confirmation {
+    text-align: center;
+}
+
+.confirmation h2 {
+    color: #28a745;
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+.confirmation-details {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 30px 0;
+    text-align: left;
+}
+
+.confirmation-details h3 {
+    margin: 0 0 15px 0;
+    color: #333;
+}
+
+.confirmation-details p {
+    margin: 8px 0;
+    color: #495057;
+}
+
+.confirmation-details strong {
+    color: #333;
+}
+
+@media (max-width: 768px) {
+    .customer-portal-container {
+        border-radius: 0;
+    }
+
+    .portal-content {
+        padding: 20px;
+    }
+
+    .portal-progress {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .progress-step.active::after {
+        display: none;
+    }
+}
