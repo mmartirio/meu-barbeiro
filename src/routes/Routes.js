@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
 import Admin from '../administrador/loginAdmin/Login';
 import AdminDashboard from '../administrador/painel/AdminDashboard';
@@ -16,10 +16,15 @@ import PrivateRoute from './PrivateRoute';
 const AppRoutes = () => {
   return (
     <Routes>
+      {/* Rotas Públicas */}
+      <Route path="/" element={<Navigate to="/admin" replace />} />
       <Route path="/admin" element={<Admin />} />
+      <Route path="/admin/login" element={<Admin />} />
       <Route path="/recuperar-senha" element={<RecuperarSenha />} />
       <Route path="/cadastro-barbearia" element={<BarbeariaRegister />} />
       <Route path="/agendar/:slug" element={<CustomerPortal />} />
+      
+      {/* Rotas Privadas */}
       <Route path="/dashboard" element={<PrivateRoute><AdminDashboard /></PrivateRoute>} />
       <Route path="/usuario" element={<PrivateRoute><Usuario /></PrivateRoute>} />
       <Route path="/servicos" element={<PrivateRoute><Servicos /></PrivateRoute>} />
