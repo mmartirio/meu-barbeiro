@@ -9,7 +9,7 @@ import Agenda from '../administrador/components/agenda/Agenda';
 import Relatorio from '../administrador/components/relatorios/Relatorio';
 import TelaCliente from '../administrador/components/tela-cliente/TelaCliente';
 import RecuperarSenha from '../administrador/loginAdmin/RecuperaSenha';
-import BarbeariaRegister from '../components/barbearia-register/BarbeariaRegister';
+import BarbeariaRegister from '../components/register/BarbeariaRegister';
 import CustomerPortal from '../components/customer-portal/CustomerPortal';
 import PrivateRoute from './PrivateRoute';
 
