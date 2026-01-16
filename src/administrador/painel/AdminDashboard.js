@@ -129,6 +129,7 @@ function AdminDashboard() {
             <li><a href="/servicos">{t('sidebar.services', 'Serviços')}</a></li>
             <li><a href="/agenda">{t('sidebar.schedule', 'Agenda')}</a></li>
             <li><a href="/relatorios">{t('sidebar.reports', 'Relatórios')}</a></li>
+            <li><a href="/tela-cliente">{t('sidebar.clientScreen', 'Tela do Cliente')}</a></li>
           </ul>
         </div>
         <div className="sidebar-buttons">

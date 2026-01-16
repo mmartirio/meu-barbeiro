@@ -119,6 +119,9 @@ function Administrador() {
                         {t('login.access')}
                     </Button>
                 </div>
+                <div className="register-link">
+                    <p>Não tem uma conta? <a href="/cadastro-barbearia">Cadastre-se aqui</a></p>
+                </div>
             </form>
         </div>
     );

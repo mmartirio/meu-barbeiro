@@ -93,6 +93,29 @@ a {
   margin-left: 10px;
 }
 
+.register-link {
+  margin-top: 20px;
+  text-align: center;
+  width: 100%;
+}
+
+.register-link p {
+  color: #ccc;
+  font-size: 14px;
+}
+
+.register-link a {
+  color: #f10404;
+  font-weight: 600;
+  margin-left: 5px;
+  text-decoration: none;
+}
+
+.register-link a:hover {
+  text-decoration: underline;
+  color: #c40202;
+}
+
 @media (max-width: 600px) {
   .form {
     max-width: 98vw;
