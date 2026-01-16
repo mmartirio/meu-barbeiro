@@ -1,0 +1,52 @@
+# Dependências
+node_modules
+backend/node_modules
+npm-debug.log*
+
+# Build
+dist
+build
+.cache
+
+# Arquivos de ambiente
+.env
+.env.local
+.env.*.local
+
+# Logs
+logs
+*.log
+
+# Git
+.git
+.gitignore
+
+# IDE
+.vscode
+.idea
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Uploads (serão montados via volume)
+backend/uploads/*
+
+# Testes
+coverage
+.nyc_output
+
+# Documentação
+*.md
+!README.md
+
+# Docker
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+
+# Scripts
+scripts/
+
+# Webpack stats
+stats.json

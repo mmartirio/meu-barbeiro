@@ -1,0 +1,84 @@
+version: '3.8'
+
+services:
+  # Banco de dados MySQL
+  mysql:
+    image: mysql:8.0
+    container_name: meu-barbeiro-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: meu_barbeiro
+      MYSQL_USER: barbeiro_user
+      MYSQL_PASSWORD: barbeiro_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./meu-barbeiro.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - meu-barbeiro-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot123"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Backend Node.js
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: meu-barbeiro-backend
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    environment:
+      NODE_ENV: production
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_NAME: meu_barbeiro
+      DB_USER: barbeiro_user
+      DB_PASSWORD: barbeiro_pass
+      JWT_SECRET: sua_chave_secreta_jwt_aqui_mude_em_producao
+      PORT: 3001
+      # Configurações de email (opcional - preencha conforme necessário)
+      EMAIL_HOST: smtp.gmail.com
+      EMAIL_PORT: 587
+      EMAIL_USER: seu_email@gmail.com
+      EMAIL_PASS: sua_senha_app
+      EMAIL_FROM: '"Meu Barbeiro" <seu_email@gmail.com>'
+    volumes:
+      - ./backend/uploads:/app/uploads
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - meu-barbeiro-network
+    healthcheck:
+      test: ["CMD-SHELL", "wget --quiet --tries=1 --spider http://localhost:3001 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Frontend React com Nginx
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: meu-barbeiro-frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - meu-barbeiro-network
+
+networks:
+  meu-barbeiro-network:
+    driver: bridge
+
+volumes:
+  mysql_data:
+    driver: local
